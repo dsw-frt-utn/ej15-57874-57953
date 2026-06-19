@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Text;
 using Dsw2026Ej15.Domain.Entities;
@@ -17,15 +18,20 @@ namespace Dsw2026Ej15.Data.Persistence
         {
             Doctors = new List<Doctor>();
             Specialities = LoadSpecialities();
-            Console.WriteLine($"Especialidades cargadas: {Specialities.Count}");
         }
 
         private List<Speciality> LoadSpecialities()
         {
             var json = File.ReadAllText("specialities.json");
 
-            return JsonSerializer.Deserialize<List<Speciality>>(json)
-                   ?? new List<Speciality>();
+            return JsonSerializer.Deserialize<List<Speciality>>
+            (
+                json,
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                }
+            ) ?? new List<Speciality>();
         }
     }
 }
