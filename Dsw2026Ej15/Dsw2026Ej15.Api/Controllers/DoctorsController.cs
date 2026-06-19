@@ -59,7 +59,7 @@ public class DoctorsController : ControllerBase
             .FirstOrDefault(d => d.Id == id && d.IsActive);
         if (doctor == null)
         {
-            return NotFound();
+            return NotFound(); 
         }
 
         var response = new DoctorResponse
@@ -71,5 +71,18 @@ public class DoctorsController : ControllerBase
         return Ok(response);
     }
 
+    [HttpDelete("{id}")]
+
+    public IActionResult Delete(Guid id)
+    {
+        var doctor = _persistence.Doctors.FirstOrDefault(d => d.Id == id && d.IsActive);
+        if( doctor== null)
+        {
+          return NotFound(); 
+        }
+
+        doctor.IsActive = false;
+        return NoContent();  //204 
+    }
 }
 
