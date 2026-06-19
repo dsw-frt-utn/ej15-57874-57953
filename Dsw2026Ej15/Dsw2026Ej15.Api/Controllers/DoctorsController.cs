@@ -2,6 +2,7 @@
 using Dsw2026Ej15.Domain.Entities;
 using Dsw2026Ej15.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Dsw2026Ej15.Domain.Exceptions;
 
 namespace Dsw2026Ej15.Api.Controllers;
 
@@ -20,17 +21,17 @@ public class DoctorsController : ControllerBase
     {
         if(string.IsNullOrWhiteSpace(request.Name))
         {
-            return BadRequest("Nombre es requerido");
+           throw new ValidationException("Nombre es requerido");
         }
         if(string.IsNullOrEmpty(request.LicenseNumber))
         {
-            return BadRequest("Numero de Licencia es requerido");
+            throw new ValidationException("Numero de Licencia es requerido");
         }
         var speciality = _persistence.Specialities
             .FirstOrDefault(s => s.Id == request.SpecialityId);
         if (speciality == null)
         {
-            return BadRequest("La especialidad que busca no existe");
+            throw new ValidationException("La especialidad que busca no existe");
         }
         var doctor = new Doctor
         {

@@ -17,6 +17,7 @@ namespace Dsw2026Ej15.Api
 
             var app = builder.Build();
 
+            app.UseMiddleware<Dsw2026Ej15.Api.Middlewares.ExceptionMiddleware>();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
